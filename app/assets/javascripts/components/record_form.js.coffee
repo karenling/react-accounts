@@ -10,10 +10,18 @@
     @state.title && @state.date && @state.amount
   handleSubmit: (e) ->
     e.preventDefault()
-    $.post '', { record: @state }, (data) =>
-      @props.handleNewRecord data
-      @setState @getInitialState()
-    , 'JSON'
+    $.ajax
+      method: 'POST'
+      url: '/records'
+      dataType: 'JSON',
+      data: { record: @state }
+      success: (data) =>
+        @props.handleNewRecord data
+        @setState @getInitialState()
+    # $.post '', { record: @state }, (data) =>
+    #   @props.handleNewRecord data
+    #   @setState @getInitialState()
+    # , 'JSON'
   render: ->
     React.DOM.form
       className: 'form-inline'
